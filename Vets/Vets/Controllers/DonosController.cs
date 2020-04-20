@@ -47,6 +47,25 @@ namespace Vets.Controllers
             //SELECT * FROM Donos d WHERE d.ID = id
             var dono = await db.Donos.FirstOrDefaultAsync(d => d.ID == id);
 
+
+            /// d => d.ID == id   -> expressão Lambda
+            /// ^
+            /// |
+            /// 'variável' que identifica cada um dos registos da tabela Donos
+            /// esta 'variavel' chama-se 'd' porque dessa forma associa-se mais facilmente aos Donos
+            /// 
+            ///   ^
+            ///   |
+            ///   => - simples separador
+            ///   
+            ///       ^
+            ///       |
+            ///       d - identifica o registo que está a ser processado
+            ///       d.ID - identifica o atributo 'ID', desse registo
+            ///       d.ID == id - expressão lógica, devolve 'true' ou 'false'
+
+
+
             if (dono == null)
             {
                 return NotFound();
