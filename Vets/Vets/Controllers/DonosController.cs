@@ -36,11 +36,19 @@ namespace Vets.Controllers
 
 
         // GET: Donos/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um Dono
+        /// </summary>
+        /// <param name="id">identificador do Dono a detalhar</param>
+        /// <returns></returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                //não foi fornecido o ID
+                //porque o utilizador o eliminou propositadamente
+                //por isso, redireciono o utilizador para a página de Index
+                return RedirectToAction("Index");
             }
 
             //em SQL, db.Donos.FirstOrDefaultAsync(m => m.ID == id) significa
@@ -68,7 +76,10 @@ namespace Vets.Controllers
 
             if (dono == null)
             {
-                return NotFound();
+                //o ID fornecido não corresponde a um dono válido
+                //porque o utilizador o eliminou propositadamente
+                //por isso, redireciono o utilizador para a página de Index
+                return RedirectToAction("Index");
             }
 
             return View(dono);
@@ -107,15 +118,21 @@ namespace Vets.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //não foi fornecido o ID
+                //porque o utilizador o eliminou propositadamente
+                //por isso, redireciono o utilizador para a página de Index
+                return RedirectToAction("Index");
             }
 
-            var donos = await db.Donos.FindAsync(id);
-            if (donos == null)
+            var dono = await db.Donos.FindAsync(id);
+            if (dono == null)
             {
-                return NotFound();
+                //o ID fornecido não corresponde a um dono válido
+                //porque o utilizador o eliminou propositadamente
+                //por isso, redireciono o utilizador para a página de Index
+                return RedirectToAction("Index");
             }
-            return View(donos);
+            return View(dono);
         }
 
         // POST: Donos/Edit/5
@@ -158,17 +175,23 @@ namespace Vets.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //não foi fornecido o ID
+                //porque o utilizador o eliminou propositadamente
+                //por isso, redireciono o utilizador para a página de Index
+                return RedirectToAction("Index");
             }
 
-            var donos = await db.Donos
+            var dono = await db.Donos
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (donos == null)
+            if (dono == null)
             {
-                return NotFound();
+                //o ID fornecido não corresponde a um dono válido
+                //porque o utilizador o eliminou propositadamente
+                //por isso, redireciono o utilizador para a página de Index
+                return RedirectToAction("Index");
             }
 
-            return View(donos);
+            return View(dono);
         }
 
         // POST: Donos/Delete/5
