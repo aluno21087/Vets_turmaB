@@ -20,8 +20,6 @@ namespace Vets.Controllers
         }
 
 
-
-
         // GET: Donos
         /// <summary>
         /// Invoca a View Index
