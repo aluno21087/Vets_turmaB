@@ -23,6 +23,10 @@ namespace Vets.Controllers
 
 
         // GET: Donos
+        /// <summary>
+        /// Invoca a View Index
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             //em SQL, db.Donos.ToListAsync() significa:

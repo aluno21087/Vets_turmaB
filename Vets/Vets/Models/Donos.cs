@@ -32,6 +32,14 @@ namespace Vets.Models
         public string Nome { get; set; }
 
         /// <summary>
+        /// Identifica o sexo do 'Dono'
+        /// </summary>
+        [StringLength(1, MinimumLength = 1)]
+        [RegularExpression("[FMfm]", ErrorMessage = "Deve escrever F ou M no campo {0}")]
+        public string Sexo { get; set; }
+
+
+        /// <summary>
         /// Número de Identificação Fiscal, vulgo 'nº de contribuinte'
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preeenchimento obrigatório")] //o parâmetro {0} representa o 'nome do atributo'
