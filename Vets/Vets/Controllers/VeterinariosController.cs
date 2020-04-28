@@ -26,6 +26,13 @@ namespace Vets.Controllers
         }
 
         // GET: Veterinarios/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um Veterinário.
+        /// Se houverem, mostra os detalhes das consultas associadas a ele
+        /// Pesquisa feita em 'Eager Loading'
+        /// </summary>
+        /// <param name="id">Identificador do Veterinário</param>
+        /// <returns></returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,14 +40,70 @@ namespace Vets.Controllers
                 return NotFound();
             }
 
-            var veterinarios = await _context.Veterinarios
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (veterinarios == null)
+            // em SQL, a pesquisa seria esta:
+            // SELECT *
+            //FROM Veterinarios v, Animais a, Donos d, Consultas c
+            //WHERE c.AnimalFK = a.ID AND
+            //      c.VeterinarioFK = v.ID AND
+            //      a.DonoFK = d.ID AND
+            //      v.ID = id
+
+            // acesso aos dados em modo 'Eager Loading'
+            var veterinario = await _context.Veterinarios
+                                            .Include(v => v.Consultas)
+                                            .ThenInclude(a => a.Animal)
+                                            .ThenInclude(d => d.Dono)
+                                            .FirstOrDefaultAsync(v => v.ID == id);
+
+            if (veterinario == null)
             {
                 return NotFound();
             }
 
-            return View(veterinarios);
+            return View(veterinario);
+        }
+
+        // GET: Veterinarios/Details2/5
+        /// <summary>
+        /// Mostra os detalhes de um Veterinário.
+        /// Se houverem, mostra os detalhes das consultas associadas a ele
+        /// Pesquisa feita em 'Lazy Loading'
+        /// </summary>
+        /// <param name="id">Identificador do Veterinário</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Details2(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // em SQL, a pesquisa seria esta:
+            // SELECT *
+            //FROM Veterinarios v
+            //WHERE v.ID = id
+
+            // acesso aos dados em modo 'Lazy Loading'
+            var veterinario = await _context.Veterinarios.FirstOrDefaultAsync(v => v.ID == id);
+            // necessário adicionar o termo 'virtual' aos relacionamentos
+            // necessário adicionar um novo pacote (package)
+            // Install-Package Microsoft.EntityFrameworkCore.Proxies
+            //
+            // dar a ordem ao programa para usar este serviço
+            // no ficheiro 'startup.cs' adicionar esta funcionalidade à BD
+            //      services.AddDbContext<VetsDB>(options => options
+            //                                                      .UseSqlServer(Configuration.GetConnectionString("ConnectionDB"))
+            //                                                      .UseLazyLoadingProxies()  //ativamos a opção do Lazy Loading
+            //      );
+            // https://docs.microsoft.com/en-us/ef/core/querying/related-data
+
+
+            if (veterinario == null)
+            {
+                return NotFound();
+            }
+
+            return View(veterinario);
         }
 
         // GET: Veterinarios/Create

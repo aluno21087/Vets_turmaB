@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Vets.Models
 {
+    /// <summary>
+    /// Descrição das Consultas executadas
+    /// </summary>
     public class Consultas
     {
         [Key]
@@ -20,11 +23,11 @@ namespace Vets.Models
         //FK para Animais
         [ForeignKey(nameof(Animal))]
         public int AnimalFK { get; set; }   //Consulta ---> Animal
-        public Animais Animal { get; set; }
+        public virtual Animais Animal { get; set; }
 
         //FK para Veterinários
         [ForeignKey(nameof(Veterinario))]
         public int VeterinarioFK { get; set; }  //Consulta ---> Veterinário
-        public Veterinarios Veterinario { get; set; }
+        public virtual Veterinarios Veterinario { get; set; }
     }
 }
