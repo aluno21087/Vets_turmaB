@@ -6,9 +6,17 @@
 
 <h1>Veterinários</h1>
 
-<p>
-    <a asp-action="Create">Adicionar novo Veterinário</a>
-</p>
+
+@if (User.IsInRole("Administrativo"))
+{  // User.Identity.IsAuthenticated --> sabe se o Utilizador está ou não autenticado
+   // User.IsInRole("Administrativo") --> identifica se o utilizador está Autenticado e se pertence, ou não, a este Role
+    <p>
+        <a asp-action="Create">Adicionar novo Veterinário</a>
+    </p>
+}
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -25,24 +33,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumCedulaProf)
-            </td>
-            <td>  <a asp-action="Details" asp-route-id="@item.ID">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumCedulaProf)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID">
                         <img src="~/Imagens/Vets/@item.Fotografia" height="50" alt="imagem do veterinário @item.Nome" title="@item.Nome" />
-                  </a>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Apagar</a>
-            </td>
-        </tr>
-}
+                    </a>
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <text> @* também pode ser usado o <div> ou <span>, em vez de <text> *@
+                        <a asp-action="Edit" asp-route-id="@item.ID">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Apagar</a>
+                    </text>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

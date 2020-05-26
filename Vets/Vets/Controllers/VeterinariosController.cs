@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Vets.Models;
 
 namespace Vets.Controllers
 {
+    [Authorize] // todos os métodos desta classe ficam protegidos
     public class VeterinariosController : Controller
     {
         /// <summary>
@@ -34,6 +36,11 @@ namespace Vets.Controllers
         }
 
         // GET: Veterinarios
+        /// <summary>
+        /// Lista os dados dos Veterinários no ecrã
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous] // este anotador anula o efeito da restrição imposta pelo [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Veterinarios.ToListAsync());
@@ -121,6 +128,18 @@ namespace Vets.Controllers
         }
 
         // GET: Veterinarios/Create
+        //      [Authorize] //anotador que força a Autenticação para dar acesso ao recurso
+        //     este método deixa de ser necessário, porque há uma proteção 'de classe' (na linha 18)
+
+        [Authorize(Roles = "Administrativo")] // apenas um utilizador autenticado e que pertença a este role, pode aceder ao conteúdo
+        
+        //*************************************************
+        //[Authorize(Roles = "Administrativo, Veterinario")] // acesso garantido a um Administrativo OU a um Veterinario
+        //*************************************************
+
+        //[Authorize(Roles = "Veterinario")]      // acesso garantido a um Veterinario
+        //[Authorize(Roles = "Administrativo")]   // e a um Administrativo, em simultâneo
+
         public IActionResult Create()
         {
             return View();
@@ -131,6 +150,9 @@ namespace Vets.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //      [Authorize]
+        //     este método deixa de ser necessário, porque há uma proteção 'de classe' (na linha 18)
+        [Authorize(Roles = "Administrativo")]
         public async Task<IActionResult> Create([Bind("ID,Nome,NumCedulaProf,Fotografia")] Veterinarios veterinario, IFormFile fotoVet)
         {
             //*****************************************

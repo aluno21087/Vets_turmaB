@@ -31,6 +31,7 @@ namespace Vets
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()  //<------------------------------------------------------------------------------------------------------------ADICIONAR!!!
                 .AddEntityFrameworkStores<VetsDB>();
             services.AddControllersWithViews();
             services.AddRazorPages();
