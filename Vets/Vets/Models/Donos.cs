@@ -28,7 +28,7 @@ namespace Vets.Models
         [Required(ErrorMessage = "O Nome é de preenchimento obrigatório")]
         [StringLength(40, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
         [RegularExpression("[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ] + (( | d[ao](s)? | e |-|'| d')[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ] +){1,3}", 
-                            ErrorMessage = "Deve escrever entre 2 e 4 nomes, começados por uma Maiúcula, seguidos de minúsculas.")]
+                            ErrorMessage = "Deve escrever entre 2 e 4 nomes, começados por uma Maiúscula, seguidos de minúsculas.")]
         public string Nome { get; set; }
 
         /// <summary>
