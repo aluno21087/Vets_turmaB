@@ -1,25 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Vets.Models;
 
 namespace Vets.Data
 {
-    /// <summary>
-    /// classe para representar a base de dados do Projeto
-    /// equivale a escrever o comando "CREATE DATABASE VetsDB"
-    /// </summary>
-    public class VetsDB : DbContext
+    public class VetsDB : IdentityDbContext
     {
         /// <summary>
         /// Construtor da classe 
         /// serve para ligar esta classe à BD
         /// </summary>
         /// <param name="options"></param>
-        public VetsDB(DbContextOptions<VetsDB> options) : base(options) { }
-
+        public VetsDB(DbContextOptions<VetsDB> options)
+            : base(options)
+        {
+        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -91,3 +89,4 @@ namespace Vets.Data
 
     }
 }
+
