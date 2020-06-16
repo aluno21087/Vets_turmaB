@@ -42,5 +42,17 @@ namespace Vets.Models
         /// </summary>
         public virtual ICollection<Consultas> Consultas { get; set; }
 
+
+        //*********************************************************************
+        // o atributo seguinte é responsável por concretizar o relacionamento
+        // entre UM veterinário e o correspondente utilizador que se autentica
+        //*********************************************************************
+
+        /// <summary>
+        /// este atributo irá receber o ID do utilizador que se autentica
+        /// </summary>
+        public string UserName { get; set; }
+
+
     }
 }
